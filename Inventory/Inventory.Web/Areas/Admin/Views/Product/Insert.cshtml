@@ -1,0 +1,100 @@
+﻿@model ProductInsertModel
+@{
+    ViewData["Title"] = "Insert";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Insert</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">Add New</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Insert a product</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form asp-antiforgery="true" asp-area="Admin" asp-controller="Product" asp-action="Insert" method="post">
+                        <div>
+                            <label asp-for="Name"></label>
+                            <input type="text" asp-for="Name">
+                        </div>
+
+                        <div>
+                            <label asp-for="Category"></label>
+                            <input type="text" asp-for="Category">
+                        </div>
+
+                        <div>
+                            <label asp-for="MeasurementUnit"></label>
+                            <input type="text" asp-for="MeasurementUnit">
+                        </div>
+
+                        <div>
+                            <label asp-for="StockQuantity"></label>
+                            <input type="number" asp-for="StockQuantity" min="0">
+                        </div>
+
+                        <div>
+                            <label asp-for="BuyingPrice"></label>
+                            <input type="number" asp-for="BuyingPrice" min="0">
+                        </div>
+
+                        <div>
+                            <label asp-for="SellingPrice"></label>
+                            <input type="number" asp-for="SellingPrice" min="0">
+                        </div>
+
+                        <div>
+                            <label asp-for="Tax"></label>
+                            <input type="number" asp-for="Tax" min="0">
+                        </div>
+
+                        <div>
+                            <label asp-for="SellingWithTax"></label>
+                            <input type="number" asp-for="SellingWithTax" step="0.01">
+                        </div>
+
+                        <div>
+                            <label asp-for="Barcode"></label>
+                            <input type="text" asp-for="Barcode">
+                        </div>
+
+                        <div>
+                            <label asp-for="Description"></label>
+                            <textarea asp-for="Description"></textarea>
+                        </div>
+
+                        <div>
+                            <label asp-for="Status"></label>
+                            <input type="checkbox" asp-for="Status">
+                        </div>
+
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!--/.col (left) -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
