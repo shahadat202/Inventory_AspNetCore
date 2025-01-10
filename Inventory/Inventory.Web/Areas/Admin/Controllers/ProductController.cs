@@ -20,7 +20,8 @@ namespace Inventory.Web.Areas.Admin.Controllers
 
         public IActionResult Insert()
         {
-            return View();
+            var model = new ProductInsertModel();
+            return View(model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
