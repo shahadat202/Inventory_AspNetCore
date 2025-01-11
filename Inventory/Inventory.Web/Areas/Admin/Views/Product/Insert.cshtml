@@ -7,12 +7,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Insert</h1>
+                <h1>Insert Item</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Products</a></li>
-                    <li class="breadcrumb-item active">Add New</li>
+                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Product" asp-action="Index">Product List</a></li>
+                    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="Product" asp-action="Insert">Add New</a></li>
                 </ol>
             </div>
         </div>
@@ -27,68 +27,101 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Insert a product</h3>
+                        <h3 class="card-title">Insert one</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form asp-antiforgery="true" asp-area="Admin" asp-controller="Product" asp-action="Insert" method="post">
-                        <div>
-                            <label asp-for="Name"></label>
-                            <input type="text" asp-for="Name">
-                        </div>
+                    <div class="card-body p-4">
+                        <form asp-antiforgery="true" asp-area="Admin" asp-controller="Product" asp-action="Insert" method="post">
+                            <div class="form-group position-relative">
+                                <input type="text" asp-for="Name" class="form-control underlined-input" placeholder=" ">
+                                <label class="floating-label">Name*</label>
+                            </div>
 
-                        <div>
-                            <label asp-for="Category"></label>
-                            <input type="text" asp-for="Category">
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="Category" class="form-control underlined-input" placeholder="">
+                                        <label class="floating-label">Category*</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="MeasurementUnit" class="form-control underlined-input" placeholder="">
+                                        <label class="floating-label">Measurement Unit*</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div>
-                            <label asp-for="MeasurementUnit"></label>
-                            <input type="text" asp-for="MeasurementUnit">
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="StockQuantity" class="form-control underlined-input" placeholder="" value="">
+                                        <label class="floating-label">Stock Quantity*</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="Barcode" class="form-control underlined-input" placeholder="">
+                                        <label class="floating-label">Barcode*</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div>
-                            <label asp-for="StockQuantity"></label>
-                            <input type="number" asp-for="StockQuantity" min="0">
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="BuyingPrice" class="form-control underlined-input" placeholder="" value="">
+                                        <label class="floating-label">Buying Price*</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="SellingPrice" class="form-control underlined-input" placeholder="" value="">
+                                        <label class="floating-label">Selling price*</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div>
-                            <label asp-for="BuyingPrice"></label>
-                            <input type="number" asp-for="BuyingPrice" min="0">
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="Tax" class="form-control underlined-input" placeholder="" value="">
+                                        <label class="floating-label">Tax*</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="SellingWithTax" class="form-control underlined-input" placeholder="" value="">
+                                        <label class="floating-label">Selling With Tax*</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div>
-                            <label asp-for="SellingPrice"></label>
-                            <input type="number" asp-for="SellingPrice" min="0">
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <div class="form-check">
+                                            <input type="checkbox" asp-for="Status" class="form-check-input">
+                                            <label style="font-size: 15px; font-weight: bold; color: #999;">Is active item?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        <input type="text" asp-for="Description" class="form-control underlined-input" placeholder="">
+                                        <label class="floating-label">Description</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div>
-                            <label asp-for="Tax"></label>
-                            <input type="number" asp-for="Tax" min="0">
-                        </div>
-
-                        <div>
-                            <label asp-for="SellingWithTax"></label>
-                            <input type="number" asp-for="SellingWithTax" step="0.01">
-                        </div>
-
-                        <div>
-                            <label asp-for="Barcode"></label>
-                            <input type="text" asp-for="Barcode">
-                        </div>
-
-                        <div>
-                            <label asp-for="Description"></label>
-                            <textarea asp-for="Description"></textarea>
-                        </div>
-
-                        <div>
-                            <label asp-for="Status"></label>
-                            <input type="checkbox" asp-for="Status">
-                        </div>
-
-                        <button type="submit">Submit</button>
-                    </form>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary px-4 py-2 mx-2">Save</button>
+                                <button type="submit" class="btn btn-success px-4 py-2 mx-2">Save & New</button>
+                                <button class="btn btn-danger px-4 py-2 mx-2">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <!-- /.card -->
             </div>
@@ -98,3 +131,55 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+<style>
+    .card {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+    .form-group input {
+        margin-bottom: 40px;
+    }
+    .underlined-input {
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #aaa;
+        border-radius: 0;
+        padding: 10px 5px 5px;
+        background: transparent;
+        font-size: 16px;
+        appearance: none; /* Remove number input arrows */
+    }
+
+        .underlined-input:focus {
+            border-bottom: 2px solid #007bff;
+            outline: none;
+        }
+
+    .floating-label {
+        position: absolute;
+        left: 5px;
+        bottom: 8px;
+        font-size: 15px;
+        color: #999;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    .underlined-input:focus + .floating-label,
+    .underlined-input:not(:placeholder-shown) + .floating-label {
+        bottom: 35px;
+        font-size: 14px;
+        color: #007bff;
+    }
+
+    .underlined-input:focus {
+        background: transparent !important;
+    }
+
+</style>
