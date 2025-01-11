@@ -1,8 +1,11 @@
 ﻿using Autofac;
+using Inventory.Application;
 using Inventory.Application.Services;
 using Inventory.Domain.RepositoryContracts;
 using Inventory.Infrastructure;
 using Inventory.Infrastructure.Repositories;
+using Inventory.Infrastructure.UnitOfWorks;
+using Inventory.Web.Data;
 namespace Inventory.Web
 {
     public class WebModule(string connectionString, string migrationAssembly) : Module
@@ -18,8 +21,17 @@ namespace Inventory.Web
                 .WithParameter("migrationAssembly", migrationAssembly)
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<ApplicationDbContext>().AsSelf()
+                .WithParameter("connectionString", connectionString)
+                .WithParameter("migrationAssembly", migrationAssembly)
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<ProductRepository>()
                 .As<IProductRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<InventoryUnitOfWork>()
+                .As<IInventoryUnitOfWork>()
                 .InstancePerLifetimeScope();
         }
     }
