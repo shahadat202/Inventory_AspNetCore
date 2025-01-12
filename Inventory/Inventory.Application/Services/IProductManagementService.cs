@@ -12,6 +12,6 @@ namespace Inventory.Application.Services
     {
         public void InsertProduct(Product product);
         (IList<Product> data, int total, int totalDisplay) GetProducts(int pageIndex, 
-            int pageSize, DataTablesSearch search, string order);
+            int pageSize, DataTablesSearch search, string? order);
     }
 }

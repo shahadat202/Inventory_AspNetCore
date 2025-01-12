@@ -3,6 +3,7 @@ using Inventory.Application.Services;
 using Inventory.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
+using Inventory.Infrastructure;
 
 namespace Inventory.Web.Areas.Admin.Controllers
 {
@@ -10,8 +11,11 @@ namespace Inventory.Web.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IProductManagementService _productManagementService;
-        public ProductController(IProductManagementService productManagementService)
+        private readonly ILogger<ProductController> _logger;
+        public ProductController(ILogger<ProductController> logger,
+            IProductManagementService productManagementService)
         {
+            _logger = logger;
             _productManagementService = productManagementService;
         }
         public IActionResult Index()
@@ -19,10 +23,11 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public JsonResult GetProductJsonResult(ProductListModel model)
+        [HttpPost]
+        public JsonResult GetProductJsonData([FromBody] ProductListModel model)
         {
             var result = _productManagementService.GetProducts(model.PageIndex, model.PageSize, 
-                model.Search, model.FormatSortExpression("Name"));
+                model.Search, model.FormatSortExpression("Name", "Barcode", "Category", "Tax", "SellingWithTax", "StockQuantity", "Status"));
 
             var productJsonData = new
             {
@@ -32,7 +37,12 @@ namespace Inventory.Web.Areas.Admin.Controllers
                         select new string[]
                         {
                                 HttpUtility.HtmlEncode(record.Name),
-                                record.Id.ToString()
+                                HttpUtility.HtmlEncode(record.Barcode),
+                                HttpUtility.HtmlEncode(record.Category),
+                                HttpUtility.HtmlEncode(record.Tax),
+                                HttpUtility.HtmlEncode(record.SellingWithTax),
+                                HttpUtility.HtmlEncode(record.StockQuantity),
+                                HttpUtility.HtmlEncode(record.Status),
                         }
                     ).ToArray()
             };
@@ -66,10 +76,28 @@ namespace Inventory.Web.Areas.Admin.Controllers
                     Status = model.Status,
                     //ImageUrl = model.ImageUrl,
                 };
-                _productManagementService.InsertProduct(product);
-                return RedirectToAction("Index");
+                try
+                {
+                    _productManagementService.InsertProduct(product);
+                    TempData.Put("ResponseMessage", new ResponseModel
+                    {
+                        Message = "Product inserted successfuly",
+                        Type = ResponseTypes.Success
+                    });
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    TempData.Put("ResponseMessage", new ResponseModel
+                    {
+                        Message = "Product insertion failed",
+                        Type = ResponseTypes.Danger
+                    });
+                    _logger.LogError(ex, "Product insertion failed");
+                }
             }
             return View();
         }
+    
     }
 }

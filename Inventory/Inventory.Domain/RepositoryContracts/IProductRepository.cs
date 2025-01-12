@@ -10,6 +10,6 @@ namespace Inventory.Domain.RepositoryContracts
     public interface IProductRepository : IRepositoryBase<Product, Guid>
     {
         (IList<Product> data, int total, int totalDisplay) GetPagedProducts(int pageIndex, 
-            int pageSize, DataTablesSearch search, string order);
+            int pageSize, DataTablesSearch search, string? order);
     }
 }

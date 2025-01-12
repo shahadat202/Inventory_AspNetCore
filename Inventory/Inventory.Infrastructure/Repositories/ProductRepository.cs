@@ -17,9 +17,13 @@ namespace Inventory.Infrastructure.Repositories
 
         }
 
-        public (IList<Product> data, int total, int totalDisplay) GetPagedProducts(int pageIndex, int pageSize, DataTablesSearch search, string order)
+        public (IList<Product> data, int total, int totalDisplay) GetPagedProducts(int pageIndex, 
+            int pageSize, DataTablesSearch search, string? order)
         {
-            return GetDynamic(x => x.Name == search.Value, order, null, pageIndex, pageSize, true);
+            if (string.IsNullOrWhiteSpace(search.Value))
+                return GetDynamic(null, order, null, pageIndex, pageSize, true);
+            else
+                return GetDynamic(x => x.Name == search.Value, order, null, pageIndex, pageSize, true);
         }
     }
 }

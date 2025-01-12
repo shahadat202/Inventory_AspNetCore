@@ -18,7 +18,7 @@ namespace Inventory.Application.Services
         }
         
         public (IList<Product> data, int total, int totalDisplay) GetProducts(int pageIndex, 
-            int pageSize, DataTablesSearch search, string order)
+            int pageSize, DataTablesSearch search, string? order)
         {
             return _inventoryUnitOfWork.ProductRepository.GetPagedProducts(pageIndex, pageSize, search, order);  
         }

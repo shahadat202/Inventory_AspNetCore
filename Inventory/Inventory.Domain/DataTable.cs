@@ -39,7 +39,7 @@ namespace Inventory.Domain
                 };
             }
         }
-        public string FormatSortExpression(params string[] columns)
+        public string? FormatSortExpression(params string[] columns)
         {
             StringBuilder columnBuilder = new StringBuilder();
             for (int i = 0; i < Order.Length; i++)
@@ -51,7 +51,8 @@ namespace Inventory.Domain
                 if (i < Order.Length - 1)
                     columnBuilder.Append(", ");
             }
-            return columnBuilder.ToString();
+            var orderString = columnBuilder.ToString();
+            return orderString == string.Empty ? null : orderString;
         }
     }
     public struct SortColumn
