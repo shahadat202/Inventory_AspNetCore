@@ -2,6 +2,7 @@
 using Inventory.Application.Services;
 using Inventory.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace Inventory.Web.Areas.Admin.Controllers
 {
@@ -16,6 +17,26 @@ namespace Inventory.Web.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult GetProductJsonResult(ProductListModel model)
+        {
+            var result = _productManagementService.GetProducts(model.PageIndex, model.PageSize, 
+                model.Search, model.FormatSortExpression("Name"));
+
+            var productJsonData = new
+            {
+                recordsTotal = result.total,
+                recordsFiltered = result.totalDisplay,
+                data = (from record in result.data
+                        select new string[]
+                        {
+                                HttpUtility.HtmlEncode(record.Name),
+                                record.Id.ToString()
+                        }
+                    ).ToArray()
+            };
+            return Json(productJsonData);
         }
 
         public IActionResult Insert()

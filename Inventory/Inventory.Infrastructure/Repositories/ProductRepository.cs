@@ -1,4 +1,5 @@
-﻿using Inventory.Domain.Entities;
+﻿using Inventory.Domain;
+using Inventory.Domain.Entities;
 using Inventory.Domain.RepositoryContracts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +15,11 @@ namespace Inventory.Infrastructure.Repositories
         public ProductRepository(InventoryDbContext context) : base(context)
         {
 
+        }
+
+        public (IList<Product> data, int total, int totalDisplay) GetPagedProducts(int pageIndex, int pageSize, DataTablesSearch search, string order)
+        {
+            return GetDynamic(x => x.Name == search.Value, order, null, pageIndex, pageSize, true);
         }
     }
 }
