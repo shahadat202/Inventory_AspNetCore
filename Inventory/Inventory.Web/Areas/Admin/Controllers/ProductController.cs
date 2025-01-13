@@ -26,7 +26,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult GetProductJsonData([FromBody] ProductListModel model)
         {
-            var result = _productManagementService.GetProducts(model.PageIndex, model.PageSize, 
+            var result = _productManagementService.GetProducts(model.PageIndex, model.PageSize,
                 model.Search, model.FormatSortExpression("Name", "Barcode", "Category", "Tax", "SellingWithTax", "StockQuantity", "Status"));
 
             var productJsonData = new

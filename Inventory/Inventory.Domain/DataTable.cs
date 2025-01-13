@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 namespace Inventory.Domain
 {
     public abstract class DataTables
