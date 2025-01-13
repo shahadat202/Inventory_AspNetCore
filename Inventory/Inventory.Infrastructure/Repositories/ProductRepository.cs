@@ -27,6 +27,18 @@ namespace Inventory.Infrastructure.Repositories
         //        return GetDynamic(x => x.Name == search.Value, order, null, pageIndex, pageSize, true);
         //}
 
+        public bool IsTitleDuplicate(string title, Guid? id = null)
+        {
+            if (id.HasValue)
+            {
+                return GetCount(x => x.Id != id.Value && x.Name == title) > 0;
+            }
+            else
+            {
+                return GetCount(x => x.Name == title) > 0;
+            }
+        }
+
         public (IList<Product> data, int total, int totalDisplay) GetPagedProducts(int pageIndex, 
             int pageSize, DataTablesSearch search, string? order)
         {
@@ -42,7 +54,6 @@ namespace Inventory.Infrastructure.Repositories
                                  p.StockQuantity.ToString().Contains(search.Value) ||
                                  p.Status.ToString().Contains(search.Value));
             }
-                
 
             int total = query.Count();
 
