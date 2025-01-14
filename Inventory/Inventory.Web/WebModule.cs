@@ -1,13 +1,37 @@
 ﻿using Autofac;
+using Inventory.Application;
 using Inventory.Application.Services;
+using Inventory.Domain.RepositoryContracts;
+using Inventory.Infrastructure;
+using Inventory.Infrastructure.Repositories;
+using Inventory.Infrastructure.UnitOfWorks;
+using Inventory.Web.Data;
 namespace Inventory.Web
 {
-    public class WebModule : Module
+    public class WebModule(string connectionString, string migrationAssembly) : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ProductManagementService>()
                 .As<IProductManagementService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<InventoryDbContext>().AsSelf()
+                .WithParameter("connectionString", connectionString)
+                .WithParameter("migrationAssembly", migrationAssembly)
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<ApplicationDbContext>().AsSelf()
+                .WithParameter("connectionString", connectionString)
+                .WithParameter("migrationAssembly", migrationAssembly)
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<ProductRepository>()
+                .As<IProductRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<InventoryUnitOfWork>()
+                .As<IInventoryUnitOfWork>()
                 .InstancePerLifetimeScope();
         }
     }

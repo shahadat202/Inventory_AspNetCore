@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Inventory.Web;
 using Serilog;
 using Serilog.Events;
+using System.Reflection;
+using Inventory.Infrastructure;
 
 #region Bootstrap Logger
 var configuration = new ConfigurationBuilder()
@@ -34,15 +36,21 @@ try
 
     // Add services to the container.
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    var migrationAssembly = Assembly.GetExecutingAssembly().FullName;
+
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionString));
+        options.UseSqlServer(connectionString, (x) => x.MigrationsAssembly(migrationAssembly)));
+    
+    builder.Services.AddDbContext<InventoryDbContext>(options =>
+        options.UseSqlServer(connectionString, (x) => x.MigrationsAssembly(migrationAssembly)));
+    
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
     #region Autofac Configuration....
     builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
     builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
     {
-        containerBuilder.RegisterModule(new WebModule());
+        containerBuilder.RegisterModule(new WebModule(connectionString, migrationAssembly));
     });
     #endregion
 

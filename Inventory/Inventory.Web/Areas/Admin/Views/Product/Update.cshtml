@@ -1,13 +1,13 @@
-﻿@model ProductInsertModel
+﻿@model ProductUpdateModel
 @{
-    ViewData["Title"] = "Insert";
+    ViewData["Title"] = "Update";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Insert Item</h1>
+                <h1>Update Item</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -27,13 +27,14 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Insert one</h3>
+                        <h3 class="card-title">Update one</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
                     <div class="card-body p-4">
-                        <form asp-antiforgery="true" asp-area="Admin" asp-controller="Product" asp-action="Insert" method="post">
+                        <form asp-antiforgery="true" asp-area="Admin" asp-controller="Product" asp-action="Update" method="post">
                             <partial name="_ResponsePartial" />
+                            <input type="hidden" asp-for="Id" />
                             <div class="form-group position-relative">
                                 <input type="text" asp-for="Name" class="form-control underlined-input" placeholder=" ">
                                 <label class="floating-label">Name*</label>
@@ -57,7 +58,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group position-relative">
-                                        <input type="text" asp-for="StockQuantity" class="form-control underlined-input" placeholder="" value="">
+                                        <input type="text" asp-for="StockQuantity" class="form-control underlined-input" placeholder="">
                                         <label class="floating-label">Stock Quantity*</label>
                                     </div>
                                 </div>
@@ -72,14 +73,14 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group position-relative">
-                                        <input type="text" asp-for="BuyingPrice" class="form-control underlined-input" placeholder="" value="">
-                                        <label class="floating-label">Buying Price*</label>
+                                        <input type="text" asp-for="BuyingPrice" class="form-control underlined-input" placeholder="">
+                                        <label class="floating-label">BuyingPrice*</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group position-relative">
-                                        <input type="text" asp-for="SellingPrice" class="form-control underlined-input" placeholder="" value="">
-                                        <label class="floating-label">Selling price*</label>
+                                        <input type="text" asp-for="SellingPrice" class="form-control underlined-input" placeholder="">
+                                        <label class="floating-label">SellingPrice*</label>
                                     </div>
                                 </div>
                             </div>
@@ -87,14 +88,14 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group position-relative">
-                                        <input type="text" asp-for="Tax" class="form-control underlined-input" placeholder="" value="">
+                                        <input type="text" asp-for="Tax" class="form-control underlined-input" placeholder="">
                                         <label class="floating-label">Tax*</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group position-relative">
-                                        <input type="text" asp-for="SellingWithTax" class="form-control underlined-input" placeholder="" value="">
-                                        <label class="floating-label">Selling With Tax*</label>
+                                        <input type="text" asp-for="SellingWithTax" class="form-control underlined-input" placeholder="">
+                                        <label class="floating-label">SellingWithTax*</label>
                                     </div>
                                 </div>
                             </div>

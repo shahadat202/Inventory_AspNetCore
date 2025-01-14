@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Inventory.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-
-namespace Inventory.Web.Data
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace Inventory.Infrastructure
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class InventoryDbContext : DbContext
     {
         private readonly string _connectionString;
         private readonly string _migrationAssembly;
-        public ApplicationDbContext(string connectionString, string migrationAssembly)
+        public InventoryDbContext(string connectionString, string migrationAssembly)
         {
             _connectionString = connectionString;
             _migrationAssembly = migrationAssembly;
@@ -21,5 +25,6 @@ namespace Inventory.Web.Data
             }
             base.OnConfiguring(optionsBuilder);
         }
+        public DbSet<Product> Products { get; set; }
     }
 }

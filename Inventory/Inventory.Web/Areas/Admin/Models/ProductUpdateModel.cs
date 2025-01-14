@@ -1,6 +1,6 @@
-﻿namespace Inventory.Domain.Entities
+﻿namespace Inventory.Web.Areas.Admin.Models
 {
-    public class Product : IEntity<Guid>
+    public class ProductUpdateModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
