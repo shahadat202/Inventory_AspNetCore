@@ -15,6 +15,7 @@ namespace Inventory.Application.Services
             int pageSize, DataTablesSearch search, string? order);
         void InsertProduct(Product product);
         void UpdateProduct(Product product);
+        bool ProductExists(string name, Guid id);
         void DeleteProduct(Guid id);
     }
 }

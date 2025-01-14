@@ -33,6 +33,8 @@
                     <!-- form start -->
                     <div class="card-body p-4">
                         <form asp-antiforgery="true" asp-area="Admin" asp-controller="Product" asp-action="Update" method="post">
+                            <partial name="_ResponsePartial" />
+                            <input type="hidden" asp-for="Id" />
                             <div class="form-group position-relative">
                                 <input type="text" asp-for="Name" class="form-control underlined-input" placeholder=" ">
                                 <label class="floating-label">Name*</label>

@@ -1,5 +1,6 @@
 ﻿using Inventory.Domain;
 using Inventory.Domain.Entities;
+using Inventory.Domain.RepositoryContracts;
 using System.Reflection.Metadata;
 
 namespace Inventory.Application.Services
@@ -41,6 +42,10 @@ namespace Inventory.Application.Services
             }
             else
                 throw new InvalidOperationException("Title should be unique.");
+        }
+        public bool ProductExists(string name, Guid id)
+        {
+            return _inventoryUnitOfWork.ProductRepository.IsProductExist(name, id);      
         }
 
         public void DeleteProduct(Guid id)

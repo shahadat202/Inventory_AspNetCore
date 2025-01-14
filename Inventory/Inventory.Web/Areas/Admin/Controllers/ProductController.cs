@@ -140,6 +140,15 @@ namespace Inventory.Web.Areas.Admin.Controllers
                     Status = model.Status,
                     Description = model.Description,
                 };
+                //if (_productManagementService.ProductExists(model.Name, model.Id))
+                //{
+                //    TempData.Put("ResponseMessage", new ResponseModel
+                //    {
+                //        Message = "Product name should be unique",
+                //        Type = ResponseTypes.Danger
+                //    });
+                //    return View(model);
+                //}
                 try
                 {
                     _productManagementService.UpdateProduct(product);

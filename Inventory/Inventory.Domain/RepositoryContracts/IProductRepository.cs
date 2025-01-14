@@ -9,9 +9,9 @@ namespace Inventory.Domain.RepositoryContracts
 {
     public interface IProductRepository : IRepositoryBase<Product, Guid>
     {
-        bool IsTitleDuplicate(string title, Guid? id = null);
-
         (IList<Product> data, int total, int totalDisplay) GetPagedProducts(int pageIndex, 
             int pageSize, DataTablesSearch search, string? order);
+        bool IsTitleDuplicate(string title, Guid? id = null);
+        bool IsProductExist(string title, Guid id);
     }
 }
