@@ -10,17 +10,22 @@ namespace Inventory.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductController : Controller
     {
-        private readonly IProductManagementService _productManagementService;
         private readonly ILogger<ProductController> _logger;
+        private readonly IProductManagementService _productManagementService;
+        private readonly ICategoryManagementService _categoryManagementService;
         public ProductController(ILogger<ProductController> logger,
-            IProductManagementService productManagementService)
+            IProductManagementService productManagementService,
+            ICategoryManagementService categoryManagementService)
         {
             _logger = logger;
             _productManagementService = productManagementService;
+            _categoryManagementService = categoryManagementService;
         }
         public IActionResult Index()
         {
-            return View();
+            var model = new ProductListModel();
+            model.SetCategoryValues(_categoryManagementService.GetCategories());    
+            return View(model);
         }
 
         [HttpPost]
@@ -38,7 +43,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
                         {
                                 HttpUtility.HtmlEncode(record.Name),
                                 HttpUtility.HtmlEncode(record.Barcode),
-                                HttpUtility.HtmlEncode(record.Category),
+                                HttpUtility.HtmlEncode(record.Category?.Name),
                                 HttpUtility.HtmlEncode(record.Tax),
                                 HttpUtility.HtmlEncode(record.SellingWithTax),
                                 HttpUtility.HtmlEncode(record.StockQuantity),
@@ -53,6 +58,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
         public IActionResult Insert()
         {
             var model = new ProductInsertModel();
+            model.SetCategoryValues(_categoryManagementService.GetCategories());
             return View(model);
         }
 
@@ -65,7 +71,6 @@ namespace Inventory.Web.Areas.Admin.Controllers
                 {
                     Id = Guid.NewGuid(),
                     Name = model.Name,
-                    Category = model.Category,
                     MeasurementUnit = model.MeasurementUnit,
                     StockQuantity = model.StockQuantity,
                     BuyingPrice = model.BuyingPrice,
@@ -75,6 +80,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
                     Barcode = model.Barcode,
                     Description = model.Description,
                     Status = model.Status,
+                    Category = _categoryManagementService.GetCategory(model.CategoryId),
                     //ImageUrl = model.ImageUrl,
                 };
                 try
@@ -97,6 +103,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
                     _logger.LogError(ex, "Product insertion failed");
                 }
             }
+            model.SetCategoryValues(_categoryManagementService.GetCategories());
             return View();
         }
 
@@ -107,7 +114,6 @@ namespace Inventory.Web.Areas.Admin.Controllers
 
             model.Id = product.Id;
             model.Name = product.Name;
-            model.Category = product.Category;
             model.Barcode = product.Barcode;
             model.MeasurementUnit = product.MeasurementUnit;
             model.StockQuantity = product.StockQuantity;
@@ -126,47 +132,50 @@ namespace Inventory.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = new Product()
-                {
-                    Id = model.Id,
-                    Name = model.Name,
-                    Category = model.Category,
-                    Barcode = model.Barcode,
-                    MeasurementUnit = model.MeasurementUnit,
-                    BuyingPrice = model.BuyingPrice,
-                    SellingPrice = model.SellingPrice,
-                    Tax = model.Tax,
-                    SellingWithTax = model.SellingWithTax,
-                    Status = model.Status,
-                    Description = model.Description,
-                };
-                //if (_productManagementService.ProductExists(model.Name, model.Id))
-                //{
-                //    TempData.Put("ResponseMessage", new ResponseModel
-                //    {
-                //        Message = "Product name should be unique",
-                //        Type = ResponseTypes.Danger
-                //    });
-                //    return View(model);
-                //}
                 try
                 {
-                    _productManagementService.UpdateProduct(product);
+                    // Fetch the existing BlogPost from the database
+                    var existingProduct = _productManagementService.GetProduct(model.Id);
+                    if (existingProduct == null)
+                    {
+                        TempData.Put("ResponseMessage", new ResponseModel
+                        {
+                            Message = "Blog post not found.",
+                            Type = ResponseTypes.Danger
+                        });
+                        return RedirectToAction("Index");
+                    }
+
+                    existingProduct.Name = model.Name;
+                    existingProduct.Name = model.Name;
+                    existingProduct.MeasurementUnit = model.MeasurementUnit;
+                    existingProduct.StockQuantity = model.StockQuantity;
+                    existingProduct.BuyingPrice = model.BuyingPrice;
+                    existingProduct.SellingPrice = model.SellingPrice;
+                    existingProduct.Tax = model.Tax;
+                    existingProduct.SellingWithTax = model.SellingWithTax;
+                    existingProduct.Barcode = model.Barcode;
+                    existingProduct.Description = model.Description;
+                    existingProduct.Status = model.Status;
+
+                    _productManagementService.UpdateProduct(existingProduct);
+
                     TempData.Put("ResponseMessage", new ResponseModel
                     {
-                        Message = "Product updated successfuly",
+                        Message = "Blog post updated successfully",
                         Type = ResponseTypes.Success
                     });
+
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
                     TempData.Put("ResponseMessage", new ResponseModel
                     {
-                        Message = "Product update failed",
+                        Message = "Blog post update failed",
                         Type = ResponseTypes.Danger
                     });
-                    _logger.LogError(ex, "Product update failed");
+                    _logger.LogError(ex, "Blog post update failed");
                 }
             }
             return View();

@@ -12,10 +12,6 @@ namespace Inventory.Web
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ProductManagementService>()
-                .As<IProductManagementService>()
-                .InstancePerLifetimeScope();
-
             builder.RegisterType<InventoryDbContext>().AsSelf()
                 .WithParameter("connectionString", connectionString)
                 .WithParameter("migrationAssembly", migrationAssembly)
@@ -26,8 +22,20 @@ namespace Inventory.Web
                 .WithParameter("migrationAssembly", migrationAssembly)
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<ProductManagementService>()
+                .As<IProductManagementService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<CategoryManagementService>()
+                .As<ICategoryManagementService>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<ProductRepository>()
                 .As<IProductRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<CategoryRepository>()
+                .As<ICategoryRepository>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<InventoryUnitOfWork>()
