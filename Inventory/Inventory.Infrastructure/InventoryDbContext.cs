@@ -25,6 +25,17 @@ namespace Inventory.Infrastructure
             }
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .HasOne(bp => bp.Category)
+                .WithMany()
+                .HasForeignKey(bp => bp.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

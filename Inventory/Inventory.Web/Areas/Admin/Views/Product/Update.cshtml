@@ -11,8 +11,11 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Product" asp-action="Index">Product List</a></li>
-                    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="Product" asp-action="Insert">Add New</a></li>
+                    <li class="breadcrumb-item active">
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-primary">
+                            Product List
+                        </a>
+                    </li>
                 </ol>
             </div>
         </div>
@@ -40,19 +43,9 @@
                                 <label class="floating-label">Name*</label>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group position-relative">
-                                        <input type="text" asp-for="Category" class="form-control underlined-input" placeholder="">
-                                        <label class="floating-label">Category*</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group position-relative">
-                                        <input type="text" asp-for="MeasurementUnit" class="form-control underlined-input" placeholder="">
-                                        <label class="floating-label">Measurement Unit*</label>
-                                    </div>
-                                </div>
+                            <div class="form-group position-relative">
+                                <input type="text" asp-for="MeasurementUnit" class="form-control underlined-input" placeholder=" ">
+                                <label class="floating-label">MeasurementUnit*</label>
                             </div>
 
                             <div class="row">

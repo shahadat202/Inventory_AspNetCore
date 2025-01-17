@@ -12,10 +12,13 @@ namespace Inventory.Infrastructure.UnitOfWorks
     public class InventoryUnitOfWork : UnitOfWork, IInventoryUnitOfWork
     {
         public IProductRepository ProductRepository { get; private set; }
+        public ICategoryRepository CategoryRepository { get; private set; }
         public InventoryUnitOfWork(InventoryDbContext dbContext,
-            IProductRepository productRepository) : base(dbContext)
+            IProductRepository productRepository,
+            ICategoryRepository categoryRepository) : base(dbContext)
         {
             ProductRepository = productRepository;
+            CategoryRepository = categoryRepository;
         }
     }
 }

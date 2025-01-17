@@ -10,5 +10,6 @@ namespace Inventory.Application
     public interface IInventoryUnitOfWork : IUnitOfWork
     {
         public IProductRepository ProductRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
     }
 }
