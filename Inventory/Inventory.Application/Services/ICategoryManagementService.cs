@@ -11,5 +11,8 @@ namespace Inventory.Application.Services
     {
         IList<Category> GetCategories();
         Category GetCategory(Guid categoryId);
+        void InsertCategory(Category category);
+        void UpdateCategory(Category existingCategory);
+        void DeleteCategory(Guid id);
     }
 }

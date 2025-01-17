@@ -9,6 +9,6 @@ namespace Inventory.Domain.RepositoryContracts
 {
     public interface ICategoryRepository : IRepositoryBase<Category, Guid>
     {
-
+        bool IsTitleDuplicate(string title, Guid? id = null);
     }
 }

@@ -11,8 +11,11 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Product" asp-action="Index">Product List</a></li>
-                    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="Product" asp-action="Insert">Add New</a></li>
+                    <li class="breadcrumb-item active">
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-primary">
+                            Product List
+                        </a>
+                    </li>
                 </ol>
             </div>
         </div>
@@ -43,6 +46,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control"></select>
+                                        <option value="" disabled selected style="font-size:15px; font-weight: 600; color:#999;">Select any category*</option>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
