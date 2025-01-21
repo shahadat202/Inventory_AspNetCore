@@ -29,10 +29,10 @@ namespace Inventory.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetProductJsonData([FromBody] ProductListModel model)
+        public async Task<JsonResult> GetProductJsonDataSP([FromBody] ProductListModel model)
         {
-            var result = _productManagementService.GetProducts(model.PageIndex, model.PageSize,
-                model.Search, model.FormatSortExpression("Name", "Barcode", "Category", "Tax", "SellingWithTax", "StockQuantity", "Status", "Id"));
+            var result = await _productManagementService.GetProductsSP(model.PageIndex, model.PageSize,
+                model.Search, model.FormatSortExpression("Name", "Barcode", "CategoryName", "Tax", "SellingWithTax", "StockQuantity", "Status", "Id"));
 
             var productJsonData = new
             {
@@ -43,12 +43,13 @@ namespace Inventory.Web.Areas.Admin.Controllers
                         {
                                 HttpUtility.HtmlEncode(record.Name),
                                 HttpUtility.HtmlEncode(record.Barcode),
-                                HttpUtility.HtmlEncode(record.Category?.Name),
+                                HttpUtility.HtmlEncode(record.CategoryName),
                                 HttpUtility.HtmlEncode(record.Tax),
                                 HttpUtility.HtmlEncode(record.SellingWithTax),
                                 HttpUtility.HtmlEncode(record.StockQuantity),
                                 HttpUtility.HtmlEncode(record.Status),
                                 record.Id.ToString(),
+                                //record.InsertDate.ToString("yyyy-MM-dd"),
                         }
                     ).ToArray()
             };
@@ -71,6 +72,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
                 {
                     Id = Guid.NewGuid(),
                     Name = model.Name,
+                    //InsertDate = DateTime.UtcNow,
                     MeasurementUnit = model.MeasurementUnit,
                     StockQuantity = model.StockQuantity,
                     BuyingPrice = model.BuyingPrice,

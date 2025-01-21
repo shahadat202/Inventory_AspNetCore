@@ -34,7 +34,7 @@
                     [10, 25, 50, 'All']
                 ],
                 ajax: {
-                    url: "/Admin/Product/GetProductJsonData",
+                    url: "/Admin/Product/GetProductJsonDataSP",
                     type: "POST",
                     contentType: "application/json", //must be added
                     dataType: "json", //better to add, not mandatory
@@ -122,8 +122,8 @@
                                     <th>Barcode</th>
                                     <th>Category</th>
                                     <th>Tax</th>
-                                    <th>Price(with tax)</th>
-                                    <th>In Stock</th>
+                                    <th>Price(tax)</th>
+                                    <th>Stock</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -134,8 +134,8 @@
                                     <th>Barcode</th>
                                     <th>Category</th>
                                     <th>Tax</th>
-                                    <th>Price(with tax)</th>
-                                    <th>In Stock</th>
+                                    <th>Price(tax)</th>
+                                    <th>Stock</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

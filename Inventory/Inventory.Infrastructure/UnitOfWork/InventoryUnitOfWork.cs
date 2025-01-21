@@ -1,5 +1,7 @@
 ﻿using Inventory.Application;
 using Inventory.Domain;
+using Inventory.Domain.Dtos;
+using Inventory.Domain.Entities;
 using Inventory.Domain.RepositoryContracts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +21,27 @@ namespace Inventory.Infrastructure.UnitOfWorks
         {
             ProductRepository = productRepository;
             CategoryRepository = categoryRepository;
+        }
+
+        public async Task<(IList<ProductDto> data, int total,
+            int totalDisplay)> GetPagedProductsUsingSPAsync(int pageIndex, 
+            int pageSize, DataTablesSearch search, string? order)
+        {
+            var procedureName = "GetProducts";
+            var result = await SqlUtility.QueryWithStoredProcedureAsync<ProductDto>(procedureName,
+                new Dictionary<string, object>
+                {
+                    { "PageIndex", pageIndex },
+                    { "PageSize", pageSize },
+                    { "OrderBy", order },
+                    { "Name", search.Value },
+                },
+                new Dictionary<string, Type>
+                {
+                    { "Total", typeof(int) },
+                    { "TotalDisplay", typeof(int) },
+                });
+            return (result.result, (int)result.outValues["Total"], (int)result.outValues["TotalDisplay"]);
         }
     }
 }

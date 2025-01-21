@@ -1,4 +1,5 @@
 ﻿using Inventory.Domain;
+using Inventory.Domain.Dtos;
 using Inventory.Domain.Entities;
 using Inventory.Domain.RepositoryContracts;
 using System.Reflection.Metadata;
@@ -18,10 +19,10 @@ namespace Inventory.Application.Services
             return _inventoryUnitOfWork.ProductRepository.GetById(id);
         }
 
-        public (IList<Product> data, int total, int totalDisplay) GetProducts(int pageIndex, 
+        public async Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex, 
             int pageSize, DataTablesSearch search, string? order)
         {
-            return _inventoryUnitOfWork.ProductRepository.GetPagedProducts(pageIndex, pageSize, search, order);  
+            return await _inventoryUnitOfWork.GetPagedProductsUsingSPAsync(pageIndex, pageSize, search, order);  
         }
 
         public void InsertProduct(Product product)
