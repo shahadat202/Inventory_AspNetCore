@@ -14,6 +14,6 @@ namespace Inventory.Application
         ICategoryRepository CategoryRepository { get; }
 
         Task<(IList<ProductDto> data, int total, int totalDisplay)> GetPagedProductsUsingSPAsync(int pageIndex,
-            int pageSize, DataTablesSearch search, string? order);
+            int pageSize, ProductSearchDto search, string? order);
     }
 }

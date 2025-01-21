@@ -25,7 +25,7 @@ namespace Inventory.Infrastructure.UnitOfWorks
 
         public async Task<(IList<ProductDto> data, int total,
             int totalDisplay)> GetPagedProductsUsingSPAsync(int pageIndex, 
-            int pageSize, DataTablesSearch search, string? order)
+            int pageSize, ProductSearchDto search, string? order)
         {
             var procedureName = "GetProducts";
             var result = await SqlUtility.QueryWithStoredProcedureAsync<ProductDto>(procedureName,
@@ -34,7 +34,12 @@ namespace Inventory.Infrastructure.UnitOfWorks
                     { "PageIndex", pageIndex },
                     { "PageSize", pageSize },
                     { "OrderBy", order },
-                    { "Name", search.Value },
+                    { "Name", search.Name == string.Empty ? null : search.Name },
+                    { "CategoryId", search.CategoryId == Guid.Empty ? null : search.CategoryId },
+                    { "Barcode", search.Barcode == string.Empty ? null : search.Barcode },
+                    { "Tax", search.Tax.HasValue ? search.Tax.Value : (decimal?)null }, // Nullable decimal
+                    //{ "PriceFrom", search.PriceFrom.HasValue ? search.PriceFrom.Value : (decimal?)null }, // Nullable decimal
+                    //{ "PriceTo", search.PriceTo.HasValue ? search.PriceTo.Value : (decimal?)null } // Nullable decimal
                 },
                 new Dictionary<string, Type>
                 {

@@ -13,7 +13,7 @@ namespace Inventory.Application.Services
     {
         Product GetProduct(Guid id);
         Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex, 
-            int pageSize, DataTablesSearch search, string? order);
+            int pageSize, ProductSearchDto search, string? order);
         void InsertProduct(Product product);
         void UpdateProduct(Product product);
         bool ProductExists(string name, Guid id);

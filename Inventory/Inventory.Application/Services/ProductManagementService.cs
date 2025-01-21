@@ -20,7 +20,7 @@ namespace Inventory.Application.Services
         }
 
         public async Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex, 
-            int pageSize, DataTablesSearch search, string? order)
+            int pageSize, ProductSearchDto search, string? order)
         {
             return await _inventoryUnitOfWork.GetPagedProductsUsingSPAsync(pageIndex, pageSize, search, order);  
         }

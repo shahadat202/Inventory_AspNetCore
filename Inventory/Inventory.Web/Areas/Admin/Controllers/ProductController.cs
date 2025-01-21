@@ -32,7 +32,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
         public async Task<JsonResult> GetProductJsonDataSP([FromBody] ProductListModel model)
         {
             var result = await _productManagementService.GetProductsSP(model.PageIndex, model.PageSize,
-                model.Search, model.FormatSortExpression("Name", "Barcode", "CategoryName", "Tax", "SellingWithTax", "StockQuantity", "Status", "Id"));
+                model.SearchItem, model.FormatSortExpression("Name", "Barcode", "CategoryName", "Tax", "SellingWithTax", "StockQuantity", "Status", "Id"));
 
             var productJsonData = new
             {
