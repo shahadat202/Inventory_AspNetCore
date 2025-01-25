@@ -4,6 +4,7 @@ using Inventory.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using Inventory.Infrastructure;
+using AutoMapper;
 
 namespace Inventory.Web.Areas.Admin.Controllers
 {
@@ -13,13 +14,16 @@ namespace Inventory.Web.Areas.Admin.Controllers
         private readonly ILogger<ProductController> _logger;
         private readonly IProductManagementService _productManagementService;
         private readonly ICategoryManagementService _categoryManagementService;
+        private readonly IMapper _mapper;
         public ProductController(ILogger<ProductController> logger,
             IProductManagementService productManagementService,
-            ICategoryManagementService categoryManagementService)
+            ICategoryManagementService categoryManagementService,
+            IMapper mapper)
         {
             _logger = logger;
             _productManagementService = productManagementService;
             _categoryManagementService = categoryManagementService;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -68,23 +72,26 @@ namespace Inventory.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = new Product()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = model.Name,
-                    //InsertDate = DateTime.UtcNow,
-                    MeasurementUnit = model.MeasurementUnit,
-                    StockQuantity = model.StockQuantity,
-                    BuyingPrice = model.BuyingPrice,
-                    SellingPrice = model.SellingPrice,
-                    Tax = model.Tax,
-                    SellingWithTax = model.SellingWithTax,
-                    Barcode = model.Barcode,
-                    Description = model.Description,
-                    Status = model.Status,
-                    Category = _categoryManagementService.GetCategory(model.CategoryId),
-                    //ImageUrl = model.ImageUrl,
-                };
+                var product = _mapper.Map<Product>(model);
+                product.Id = Guid.NewGuid();
+                product.Category = _categoryManagementService.GetCategory(model.CategoryId);  
+                //var product = new Product()
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Name = model.Name,
+                //    //InsertDate = DateTime.UtcNow,
+                //    MeasurementUnit = model.MeasurementUnit,
+                //    StockQuantity = model.StockQuantity,
+                //    BuyingPrice = model.BuyingPrice,
+                //    SellingPrice = model.SellingPrice,
+                //    Tax = model.Tax,
+                //    SellingWithTax = model.SellingWithTax,
+                //    Barcode = model.Barcode,
+                //    Description = model.Description,
+                //    Status = model.Status,
+                //    Category = _categoryManagementService.GetCategory(model.CategoryId),
+                //    //ImageUrl = model.ImageUrl,
+                //};
                 try
                 {
                     _productManagementService.InsertProduct(product);
@@ -109,35 +116,37 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult Update(Guid id)
+        public async Task<IActionResult> Update(Guid id)
         {
-            var model = new ProductUpdateModel();
-            Product product = _productManagementService.GetProduct(id);
+            Product product = await _productManagementService.GetProductAsync(id);
+            var model = _mapper.Map<ProductUpdateModel>(product);   
 
-            model.Id = product.Id;
-            model.Name = product.Name;
-            model.Barcode = product.Barcode;
-            model.MeasurementUnit = product.MeasurementUnit;
-            model.StockQuantity = product.StockQuantity;
-            model.BuyingPrice = product.BuyingPrice;
-            model.SellingPrice = product.SellingPrice;
-            model.Tax = product.Tax;
-            model.SellingWithTax = product.SellingWithTax;
-            model.Status = product.Status;
-            model.Description = product.Description;
+            //model.Id = product.Id;
+            //model.Name = product.Name;
+            //model.Barcode = product.Barcode;
+            //model.MeasurementUnit = product.MeasurementUnit;
+            //model.StockQuantity = product.StockQuantity;
+            //model.BuyingPrice = product.BuyingPrice;
+            //model.SellingPrice = product.SellingPrice;
+            //model.Tax = product.Tax;
+            //model.SellingWithTax = product.SellingWithTax;
+            //model.Status = product.Status;
+            //model.Description = product.Description;
 
             return View(model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Update(ProductUpdateModel model)
+        public async Task<IActionResult> Update(ProductUpdateModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     // Fetch the existing BlogPost from the database
-                    var existingProduct = _productManagementService.GetProduct(model.Id);
+                    var existingProduct = await _productManagementService.GetProductAsync(model.Id);
+                    existingProduct = _mapper.Map(model, existingProduct);
+                    //existingProduct.Category = _categoryManagementService.GetCategory(model.CategoryId);    
                     if (existingProduct == null)
                     {
                         TempData.Put("ResponseMessage", new ResponseModel
@@ -147,18 +156,6 @@ namespace Inventory.Web.Areas.Admin.Controllers
                         });
                         return RedirectToAction("Index");
                     }
-
-                    existingProduct.Name = model.Name;
-                    existingProduct.Name = model.Name;
-                    existingProduct.MeasurementUnit = model.MeasurementUnit;
-                    existingProduct.StockQuantity = model.StockQuantity;
-                    existingProduct.BuyingPrice = model.BuyingPrice;
-                    existingProduct.SellingPrice = model.SellingPrice;
-                    existingProduct.Tax = model.Tax;
-                    existingProduct.SellingWithTax = model.SellingWithTax;
-                    existingProduct.Barcode = model.Barcode;
-                    existingProduct.Description = model.Description;
-                    existingProduct.Status = model.Status;
 
                     _productManagementService.UpdateProduct(existingProduct);
 
@@ -180,6 +177,8 @@ namespace Inventory.Web.Areas.Admin.Controllers
                     _logger.LogError(ex, "Blog post update failed");
                 }
             }
+            //model.SetCategoryValues(_categoryManagementService.GetCategories());
+            //return View(model);
             return View();
         }
 

@@ -45,5 +45,11 @@ namespace Inventory.Infrastructure.Repositories
         {
             return _context.Products.Any(x => x.Name == title && x.Id == id);       
         }
+
+        public async Task<Product> GetProductAsync(Guid id)
+        {
+            return (await GetAsync(x => x.Id == id, 
+                y => y.Include(z => z.Category))).FirstOrDefault();
+        }
     }
 }

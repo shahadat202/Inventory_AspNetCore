@@ -10,9 +10,7 @@ namespace Inventory.Domain.Dtos
     {
         public string? Name { get; set; }
         public string? Barcode { get; set; }
-        public Guid? CategoryId { get; set; }
+        public string? CategoryId { get; set; }
         public decimal? Tax { get; set; }
-        //public decimal? PriceFrom { get; set; }
-        //public decimal? PriceTo { get; set; }
     }
 }

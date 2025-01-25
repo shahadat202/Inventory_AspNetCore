@@ -24,7 +24,7 @@ namespace Inventory.Infrastructure.UnitOfWorks
         }
 
         public async Task<(IList<ProductDto> data, int total,
-            int totalDisplay)> GetPagedProductsUsingSPAsync(int pageIndex, 
+            int totalDisplay)> GetPagedProductsUsingSPAsync(int pageIndex,
             int pageSize, ProductSearchDto search, string? order)
         {
             var procedureName = "GetProducts";
@@ -34,8 +34,8 @@ namespace Inventory.Infrastructure.UnitOfWorks
                     { "PageIndex", pageIndex },
                     { "PageSize", pageSize },
                     { "OrderBy", order },
-                    { "Name", search.Name == string.Empty ? null : search.Name },
-                    { "CategoryId", search.CategoryId == Guid.Empty ? null : search.CategoryId },
+                    { "Name", string.IsNullOrEmpty(search.Name) ? null : search.Name },
+                    { "CategoryId", string.IsNullOrEmpty(search.CategoryId) ? null : Guid.Parse(search.CategoryId) },
                     { "Barcode", search.Barcode == string.Empty ? null : search.Barcode },
                     { "Tax", search.Tax.HasValue ? search.Tax.Value : (decimal?)null }, // Nullable decimal
                     //{ "PriceFrom", search.PriceFrom.HasValue ? search.PriceFrom.Value : (decimal?)null }, // Nullable decimal
