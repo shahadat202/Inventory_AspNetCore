@@ -1,4 +1,5 @@
 ﻿using Inventory.Domain;
+using Inventory.Domain.Dtos;
 using Inventory.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace Inventory.Application.Services
 {
     public interface IProductManagementService
     {
-        Product GetProduct(Guid id);
-        (IList<Product> data, int total, int totalDisplay) GetProducts(int pageIndex, 
-            int pageSize, DataTablesSearch search, string? order);
+        Task<Product> GetProductAsync(Guid id);
+        Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex, 
+            int pageSize, ProductSearchDto search, string? order);
         void InsertProduct(Product product);
         void UpdateProduct(Product product);
         bool ProductExists(string name, Guid id);

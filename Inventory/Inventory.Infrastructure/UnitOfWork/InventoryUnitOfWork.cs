@@ -1,5 +1,7 @@
 ﻿using Inventory.Application;
 using Inventory.Domain;
+using Inventory.Domain.Dtos;
+using Inventory.Domain.Entities;
 using Inventory.Domain.RepositoryContracts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +21,32 @@ namespace Inventory.Infrastructure.UnitOfWorks
         {
             ProductRepository = productRepository;
             CategoryRepository = categoryRepository;
+        }
+
+        public async Task<(IList<ProductDto> data, int total,
+            int totalDisplay)> GetPagedProductsUsingSPAsync(int pageIndex,
+            int pageSize, ProductSearchDto search, string? order)
+        {
+            var procedureName = "GetProducts";
+            var result = await SqlUtility.QueryWithStoredProcedureAsync<ProductDto>(procedureName,
+                new Dictionary<string, object>
+                {
+                    { "PageIndex", pageIndex },
+                    { "PageSize", pageSize },
+                    { "OrderBy", order },
+                    { "Name", string.IsNullOrEmpty(search.Name) ? null : search.Name },
+                    { "CategoryId", string.IsNullOrEmpty(search.CategoryId) ? null : Guid.Parse(search.CategoryId) },
+                    { "Barcode", search.Barcode == string.Empty ? null : search.Barcode },
+                    { "Tax", search.Tax.HasValue ? search.Tax.Value : (decimal?)null }, // Nullable decimal
+                    //{ "PriceFrom", search.PriceFrom.HasValue ? search.PriceFrom.Value : (decimal?)null }, // Nullable decimal
+                    //{ "PriceTo", search.PriceTo.HasValue ? search.PriceTo.Value : (decimal?)null } // Nullable decimal
+                },
+                new Dictionary<string, Type>
+                {
+                    { "Total", typeof(int) },
+                    { "TotalDisplay", typeof(int) },
+                });
+            return (result.result, (int)result.outValues["Total"], (int)result.outValues["TotalDisplay"]);
         }
     }
 }

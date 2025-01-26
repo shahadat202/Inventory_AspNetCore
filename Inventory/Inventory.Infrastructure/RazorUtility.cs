@@ -16,7 +16,7 @@ namespace Inventory.Infrastructure
                          select new SelectListItem(c.Name, c.Id.ToString()))
                           .ToList();
 
-            items.Insert(0, new SelectListItem("All", Guid.Empty.ToString()));
+            items.Insert(0, new SelectListItem("Select a Category", string.Empty));
 
             return items;
         }

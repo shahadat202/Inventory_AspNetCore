@@ -1,4 +1,5 @@
 ﻿using Inventory.Domain;
+using Inventory.Domain.Dtos;
 using Inventory.Domain.RepositoryContracts;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,8 @@ namespace Inventory.Application
     {
         public IProductRepository ProductRepository { get; }
         ICategoryRepository CategoryRepository { get; }
+
+        Task<(IList<ProductDto> data, int total, int totalDisplay)> GetPagedProductsUsingSPAsync(int pageIndex,
+            int pageSize, ProductSearchDto search, string? order);
     }
 }
