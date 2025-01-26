@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using Inventory.Infrastructure;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Inventory.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;

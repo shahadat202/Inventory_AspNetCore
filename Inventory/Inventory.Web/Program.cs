@@ -8,6 +8,7 @@ using Serilog;
 using Serilog.Events;
 using System.Reflection;
 using Inventory.Infrastructure;
+using Inventory.Infrastructure.Identity;
 
 #region Bootstrap Logger
 var configuration = new ConfigurationBuilder()
@@ -55,11 +56,17 @@ try
     #endregion
 
     #region Automapper Configuration
-    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     #endregion
 
-    builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-        .AddEntityFrameworkStores<ApplicationDbContext>();
+    builder.Services
+        .AddIdentity<ApplicationUser, ApplicationRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddUserManager<ApplicationUserManager>()
+        .AddRoleManager<ApplicationRoleManager>()
+        .AddSignInManager<ApplicationSignInManager>()
+        .AddDefaultTokenProviders();
+
     builder.Services.AddControllersWithViews();
 
     var app = builder.Build();
@@ -91,7 +98,7 @@ try
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
-    app.MapRazorPages();
+    //app.MapRazorPages();
 
     app.Run();
 }

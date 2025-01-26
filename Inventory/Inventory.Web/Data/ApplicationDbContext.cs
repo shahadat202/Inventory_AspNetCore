@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Inventory.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Web.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,
+        ApplicationRole, Guid,
+        ApplicationUserClaim, ApplicationUserRole,
+        ApplicationUserLogin, ApplicationRoleClaim,
+        ApplicationUserToken>
     {
         private readonly string _connectionString;
         private readonly string _migrationAssembly;
