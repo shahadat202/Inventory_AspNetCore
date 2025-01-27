@@ -75,24 +75,10 @@ namespace Inventory.Web.Areas.Admin.Controllers
             {
                 var product = _mapper.Map<Product>(model);
                 product.Id = Guid.NewGuid();
-                product.Category = _categoryManagementService.GetCategory(model.CategoryId);  
-                //var product = new Product()
-                //{
-                //    Id = Guid.NewGuid(),
-                //    Name = model.Name,
-                //    //InsertDate = DateTime.UtcNow,
-                //    MeasurementUnit = model.MeasurementUnit,
-                //    StockQuantity = model.StockQuantity,
-                //    BuyingPrice = model.BuyingPrice,
-                //    SellingPrice = model.SellingPrice,
-                //    Tax = model.Tax,
-                //    SellingWithTax = model.SellingWithTax,
-                //    Barcode = model.Barcode,
-                //    Description = model.Description,
-                //    Status = model.Status,
-                //    Category = _categoryManagementService.GetCategory(model.CategoryId),
-                //    //ImageUrl = model.ImageUrl,
-                //};
+                product.Category = _categoryManagementService.GetCategory(model.CategoryId);
+
+                // Image upload logic
+                product.Image = UploadImage(model.Image);
                 try
                 {
                     _productManagementService.InsertProduct(product);
@@ -121,19 +107,6 @@ namespace Inventory.Web.Areas.Admin.Controllers
         {
             Product product = await _productManagementService.GetProductAsync(id);
             var model = _mapper.Map<ProductUpdateModel>(product);   
-
-            //model.Id = product.Id;
-            //model.Name = product.Name;
-            //model.Barcode = product.Barcode;
-            //model.MeasurementUnit = product.MeasurementUnit;
-            //model.StockQuantity = product.StockQuantity;
-            //model.BuyingPrice = product.BuyingPrice;
-            //model.SellingPrice = product.SellingPrice;
-            //model.Tax = product.Tax;
-            //model.SellingWithTax = product.SellingWithTax;
-            //model.Status = product.Status;
-            //model.Description = product.Description;
-
             return View(model);
         }
 
@@ -144,10 +117,8 @@ namespace Inventory.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    // Fetch the existing BlogPost from the database
                     var existingProduct = await _productManagementService.GetProductAsync(model.Id);
                     existingProduct = _mapper.Map(model, existingProduct);
-                    //existingProduct.Category = _categoryManagementService.GetCategory(model.CategoryId);    
                     if (existingProduct == null)
                     {
                         TempData.Put("ResponseMessage", new ResponseModel
@@ -207,5 +178,28 @@ namespace Inventory.Web.Areas.Admin.Controllers
             }
             return View();
         }
+
+
+        // Image upload logic 
+        private string UploadImage(IFormFile image)
+        {
+            if (image != null && image.Length > 0)
+            {
+                var uploadsFolder = Path.Combine("wwwroot", "uploadedImages");
+                Directory.CreateDirectory(uploadsFolder);
+
+                // Generate a unique filename to avoid collisions
+                var uniqueFileName = $"{Guid.NewGuid()}_{image.FileName}";
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    image.CopyTo(stream); 
+                }
+                return $"/uploadedImages/{uniqueFileName}";
+            }
+            return null; 
+        }
+
     }
 }

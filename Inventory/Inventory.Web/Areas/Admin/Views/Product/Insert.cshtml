@@ -35,7 +35,7 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <div class="card-body p-4">
-                        <form asp-antiforgery="true" asp-area="Admin" asp-controller="Product" asp-action="Insert" method="post">
+                        <form asp-antiforgery="true" asp-area="Admin" asp-controller="Product" asp-action="Insert" method="post" enctype="multipart/form-data">
                             <partial name="_ResponsePartial" />
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-group position-relative">
@@ -119,6 +119,22 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-4 photo-section">
+                                    <h2>Image</h2>
+                                    <div class="photo-box" style="margin-top: 20px;">
+                                        <i class="fas fa-trash delete-icon" id="delete-photo" onclick="deletePhoto()" style="display:none;"></i>
+                                        <label for="photo-input" class="photo-label">
+                                            <i class="fas fa-camera"></i> Upload image
+                                        </label>
+                                        <input type="file" asp-for="Image" id="photo-input" class="photo-input" onchange="showPhoto(event)" />
+                                        <img id="preview-photo" src="#" alt="Photo Preview" style="display:none;" />
+                                        <span asp-validation-for="Image" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-primary px-4 py-2 mx-2">Save</button>
                                 <button type="button" class="btn btn-danger px-4 py-2 mx-2" onclick="window.location.replace('/Admin/Product/Index');">Cancel</button>
@@ -138,7 +154,72 @@
 {
     <partial name="_ValidationScriptsPartial" />
 }
+<script>
+    // Show the selected photo in the preview box
+    function showPhoto(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('preview-photo');
+            output.src = reader.result;
+            output.style.display = 'block';
+            document.getElementById('delete-photo').style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Delete the photo and hide the preview and delete button
+    function deletePhoto() {
+        var preview = document.getElementById('preview-photo');
+        preview.src = '#';
+        preview.style.display = 'none';
+        document.getElementById('delete-photo').style.display = 'none';
+        document.getElementById('photo-input').value = '';
+    }
+</script>
 <style>
+    /* Photo section updates */
+    .photo-box {
+        text-align: center;
+        border: 2px dashed #ccc;
+        padding: 70px 20px;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .photo-label {
+        display: block;
+        cursor: pointer;
+        color: #888;
+        font-size: 16px;
+    }
+
+        .photo-label i {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+    .photo-input {
+        display: none;
+    }
+
+    #preview-photo {
+        width: 100%;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    /* Professional Delete Icon */
+    .delete-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: #dc3545;
+        cursor: pointer;
+        display: none;
+    }
+
+    /*   Input field design   */
     .card {
         border-radius: 8px;
         overflow: hidden;

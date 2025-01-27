@@ -35,6 +35,8 @@ namespace Inventory.Web.Areas.Admin.Models
         {
             Categories = RazorUtility.ConvertCategories(categories);
         }
+        [Display(Name = "Product Image"), Required]
+        public IFormFile Image { get; set; }
 
     }
 }
