@@ -14,7 +14,7 @@ namespace Inventory.Application.Services
             _inventoryUnitOfWork = inventoryUnitOfWork;
         }
 
-        public async Task<Product> GetProductAsync(Guid id)
+        public async Task<Product> GetProductByIdAsync(Guid id)
         {
             return await _inventoryUnitOfWork.ProductRepository.GetProductAsync(id);
         }

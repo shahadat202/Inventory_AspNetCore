@@ -26,10 +26,10 @@ namespace Inventory.Web.Areas.Admin.Controllers
             _categoryManagementService = categoryManagementService;
             _mapper = mapper;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new ProductListModel();
-            model.SetCategoryValues(_categoryManagementService.GetCategories());    
+            model.SetCategoryValues(await _categoryManagementService.GetCategories());    
             return View(model);
         }
 
@@ -61,24 +61,24 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return Json(productJsonData);
         }
 
-        public IActionResult Insert()
+        public async Task<IActionResult> Insert()
         {
             var model = new ProductInsertModel();
-            model.SetCategoryValues(_categoryManagementService.GetCategories());
+            model.SetCategoryValues(await _categoryManagementService.GetCategories());
             return View(model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Insert(ProductInsertModel model)
+        public async Task<IActionResult> Insert(ProductInsertModel model)
         {
             if (ModelState.IsValid)
             {
                 var product = _mapper.Map<Product>(model);
                 product.Id = Guid.NewGuid();
-                product.Category = _categoryManagementService.GetCategory(model.CategoryId);
+                product.Category = await _categoryManagementService.GetCategory(model.CategoryId);
 
                 // Image upload logic
-                product.Image = UploadImage(model.Image);
+                product.Image = await UploadImage(model.Image);
                 try
                 {
                     _productManagementService.InsertProduct(product);
@@ -99,13 +99,13 @@ namespace Inventory.Web.Areas.Admin.Controllers
                     _logger.LogError(ex, "Product insertion failed");
                 }
             }
-            model.SetCategoryValues(_categoryManagementService.GetCategories());
+            model.SetCategoryValues(await _categoryManagementService.GetCategories());
             return View();
         }
 
         public async Task<IActionResult> Update(Guid id)
         {
-            Product product = await _productManagementService.GetProductAsync(id);
+            Product product = await _productManagementService.GetProductByIdAsync(id);
             var model = _mapper.Map<ProductUpdateModel>(product);   
             return View(model);
         }
@@ -117,7 +117,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    var existingProduct = await _productManagementService.GetProductAsync(model.Id);
+                    var existingProduct = await _productManagementService.GetProductByIdAsync(model.Id);
                     existingProduct = _mapper.Map(model, existingProduct);
                     if (existingProduct == null)
                     {
@@ -155,7 +155,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             try
             {
@@ -179,9 +179,34 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public async Task<IActionResult> ViewProduct(Guid id)
+        {
+            var product = await _productManagementService.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var productViewModel = new ProductViewModel()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Category = product.Category.Name,
+                MeasurementUnit = product.MeasurementUnit,
+                Barcode = product.Barcode,
+                BuyingPrice = product.BuyingPrice,
+                SellingPrice = product.SellingPrice,
+                Tax = product.Tax,
+                SellingWithTax = product.SellingWithTax,
+                StockQuantity = product.StockQuantity,
+                Status = product.Status,
+                Description = product.Description,
+                Image = product.Image
+            };
+            return View(productViewModel);
+        }
 
         // Image upload logic 
-        private string UploadImage(IFormFile image)
+        private async Task<string> UploadImage(IFormFile image)
         {
             if (image != null && image.Length > 0)
             {
@@ -194,7 +219,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    image.CopyTo(stream); 
+                    await image.CopyToAsync(stream); 
                 }
                 return $"/uploadedImages/{uniqueFileName}";
             }

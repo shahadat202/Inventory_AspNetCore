@@ -15,14 +15,14 @@ namespace Inventory.Application.Services
         {
             _inventoryUnitOfWork = inventoryUnitOfWork;
         }
-        public Category GetCategory(Guid categoryId)
+        public async Task<Category> GetCategory(Guid categoryId)
         {
-            return _inventoryUnitOfWork.CategoryRepository.GetById(categoryId);
+            return await _inventoryUnitOfWork.CategoryRepository.GetByIdAsync(categoryId);
         }
 
-        public IList<Category> GetCategories()
+        public async Task<IList<Category>> GetCategories()
         {
-            return _inventoryUnitOfWork.CategoryRepository.GetAll();
+            return await _inventoryUnitOfWork.CategoryRepository.GetAllAsync();
         }
 
         public void InsertCategory(Category category)

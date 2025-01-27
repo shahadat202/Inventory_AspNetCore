@@ -17,11 +17,11 @@ namespace Inventory.Web.Areas.Admin.Controllers
             _logger = logger;
             _categoryManagementService = categoryManagementService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new CategoryListModel
             {
-                Categories = _categoryManagementService.GetCategories()
+                Categories = await _categoryManagementService.GetCategories()
             };
             return View(model);
         }
@@ -32,7 +32,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Insert(CategoryInsertModel model)
+        public async Task<IActionResult> Insert(CategoryInsertModel model)
         {
             if (ModelState.IsValid)
             {
@@ -66,9 +66,9 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-        public IActionResult Update(Guid id)
+        public async Task<IActionResult> Update(Guid id)
         {
-            var category = _categoryManagementService.GetCategory(id);
+            var category = await _categoryManagementService.GetCategory(id);
             var model = new CategoryUpdateModel()
             {
                 Id = category.Id,
@@ -78,13 +78,13 @@ namespace Inventory.Web.Areas.Admin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Update(CategoryUpdateModel model)
+        public async Task<IActionResult> Update(CategoryUpdateModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var existingCategory = _categoryManagementService.GetCategory(model.Id);
+                    var existingCategory = await _categoryManagementService.GetCategory(model.Id);
                     if (existingCategory == null)
                     {
                         TempData.Put("ResponseMessage", new ResponseModel
@@ -119,7 +119,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             try
             {

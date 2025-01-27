@@ -1,0 +1,137 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "ViewProduct";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Product Details</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-info">
+                            <i class="fas fa-edit"></i> Update Product
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-info">
+                            Product List
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Product ID - <strong>@Model.Id</strong></h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="text-center mb-5">
+                            <img src="@Model.Image" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-width: 300px;" />
+                        </div>
+                        <div class="row">
+                            <!-- Name -->
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Product Name</h5>
+                                    <p class="h6">@Model.Name</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Category</h5>
+                                    <p class="h6">@Model.Category</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Measurement Unit</h5>
+                                    <p class="h6">@Model.MeasurementUnit</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Stock Quantity</h5>
+                                    <p class="h6">@Model.StockQuantity</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Buying Price</h5>
+                                    <p class="h6">TK @Model.BuyingPrice</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Selling Price</h5>
+                                    <p class="h6">TK @Model.SellingPrice</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Tax</h5>
+                                    <p class="h6">@Model.Tax%</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Selling Price (Incl. Tax)</h5>
+                                    <p class="h6">TK @Model.SellingWithTax</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Barcode</h5>
+                                    <p class="h6">@Model.Barcode</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Description</h5>
+                                    <p class="h6">@Model.Description</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <h5 class="text-secondary">Status</h5>
+                                    <p class="h6">
+                                        @if (Model.Status)
+                                        {
+                                            <span class="badge badge-success">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">Inactive</span>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+
