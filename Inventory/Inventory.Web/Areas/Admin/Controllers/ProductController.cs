@@ -1,4 +1,5 @@
 ﻿using Inventory.Domain.Entities;
+using Inventory.Domain.Dtos;
 using Inventory.Application.Services;
 using Inventory.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,13 @@ namespace Inventory.Web.Areas.Admin.Controllers
             model.SetCategoryValues(await _categoryManagementService.GetCategories());    
             return View(model);
         }
+
+        public async Task<IActionResult> IndexUI()
+        {
+            var (data, total, totalDisplay) = await _productManagementService.GetProductsSP(1, 10, new ProductSearchDto(), "Name ASC"); //SQL order by clause "Name ASC" 
+            return View(data); 
+        }
+
 
         [HttpPost]
         public async Task<JsonResult> GetProductJsonDataSP([FromBody] ProductListModel model)
@@ -183,25 +191,9 @@ namespace Inventory.Web.Areas.Admin.Controllers
         {
             var product = await _productManagementService.GetProductByIdAsync(id);
             if (product == null)
-            {
                 return NotFound();
-            }
-            var productViewModel = new ProductViewModel()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Category = product.Category.Name,
-                MeasurementUnit = product.MeasurementUnit,
-                Barcode = product.Barcode,
-                BuyingPrice = product.BuyingPrice,
-                SellingPrice = product.SellingPrice,
-                Tax = product.Tax,
-                SellingWithTax = product.SellingWithTax,
-                StockQuantity = product.StockQuantity,
-                Status = product.Status,
-                Description = product.Description,
-                Image = product.Image
-            };
+            
+            var productViewModel = _mapper.Map<ProductViewModel>(product);  
             return View(productViewModel);
         }
 

@@ -22,6 +22,7 @@ namespace Inventory.Application.Services
         public async Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex, 
             int pageSize, ProductSearchDto search, string? order)
         {
+            //order ??= "Name ASC";
             return await _inventoryUnitOfWork.GetPagedProductsUsingSPAsync(pageIndex, pageSize, search, order);  
         }
 
@@ -55,5 +56,17 @@ namespace Inventory.Application.Services
             _inventoryUnitOfWork.Save();
         }
 
+        // Dashboard part
+        public async Task<int> GetTotalItems()
+        {
+            var products = await _inventoryUnitOfWork.ProductRepository.GetAllAsync();
+            return products.Count;
+        }
+
+        public async Task<decimal> GetTotalValue()
+        {
+            var values = await _inventoryUnitOfWork.ProductRepository.GetAllAsync();
+            return values.Sum(x => x.BuyingPrice);
+        }
     }
 }

@@ -38,8 +38,6 @@ namespace Inventory.Infrastructure.UnitOfWorks
                     { "CategoryId", string.IsNullOrEmpty(search.CategoryId) ? null : Guid.Parse(search.CategoryId) },
                     { "Barcode", search.Barcode == string.Empty ? null : search.Barcode },
                     { "Tax", search.Tax.HasValue ? search.Tax.Value : (decimal?)null }, // Nullable decimal
-                    //{ "PriceFrom", search.PriceFrom.HasValue ? search.PriceFrom.Value : (decimal?)null }, // Nullable decimal
-                    //{ "PriceTo", search.PriceTo.HasValue ? search.PriceTo.Value : (decimal?)null } // Nullable decimal
                 },
                 new Dictionary<string, Type>
                 {

@@ -1,0 +1,19 @@
+﻿@using Inventory.Domain.Dtos
+@model IList<ProductDto>
+@{
+    ViewData["Title"] = "IndexUI";
+}
+
+<h2>Browse Products</h2>
+
+<div class="product-list">
+    @foreach (var product in Model)
+    {
+        <div class="product-item">
+            <img src="@product.Image" alt="@product.Name" />
+            <h4>@product.Name</h4>
+            <p>Price: @product.SellingWithTax TK</p>
+            <button class="btn btn-info">Add to Cart</button>
+        </div>
+    }
+</div>

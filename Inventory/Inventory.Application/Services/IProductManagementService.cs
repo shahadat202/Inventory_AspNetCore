@@ -18,5 +18,9 @@ namespace Inventory.Application.Services
         void UpdateProduct(Product product);
         bool ProductExists(string name, Guid id);
         void DeleteProduct(Guid id);
+
+        // Dashboard part
+        Task<int> GetTotalItems();
+        Task<decimal> GetTotalValue();
     }
 }
