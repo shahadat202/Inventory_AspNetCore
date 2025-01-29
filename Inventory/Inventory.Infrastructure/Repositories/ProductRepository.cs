@@ -51,5 +51,10 @@ namespace Inventory.Infrastructure.Repositories
             return (await GetAsync(x => x.Id == id, 
                 y => y.Include(z => z.Category))).FirstOrDefault();
         }
+
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            return await _context.Products.ToListAsync();
+        }
     }
 }

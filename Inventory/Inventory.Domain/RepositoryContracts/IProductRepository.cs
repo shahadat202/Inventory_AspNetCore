@@ -14,5 +14,6 @@ namespace Inventory.Domain.RepositoryContracts
         bool IsTitleDuplicate(string title, Guid? id = null);
         bool IsProductExist(string title, Guid id);
         Task<Product> GetProductAsync(Guid id);
+        Task<IEnumerable<Product>> GetAllAsync();
     }
 }

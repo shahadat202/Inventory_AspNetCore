@@ -2,6 +2,7 @@
 using Inventory.Domain.Dtos;
 using Inventory.Domain.Entities;
 using Inventory.Domain.RepositoryContracts;
+using System.Linq;
 using System.Reflection.Metadata;
 
 namespace Inventory.Application.Services
@@ -17,6 +18,10 @@ namespace Inventory.Application.Services
         public async Task<Product> GetProductByIdAsync(Guid id)
         {
             return await _inventoryUnitOfWork.ProductRepository.GetProductAsync(id);
+        }
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        {
+            return await _inventoryUnitOfWork.ProductRepository.GetAllAsync();  
         }
 
         public async Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex, 
@@ -60,7 +65,7 @@ namespace Inventory.Application.Services
         public async Task<int> GetTotalItems()
         {
             var products = await _inventoryUnitOfWork.ProductRepository.GetAllAsync();
-            return products.Count;
+            return products.Count();
         }
 
         public async Task<decimal> GetTotalValue()
@@ -68,5 +73,6 @@ namespace Inventory.Application.Services
             var values = await _inventoryUnitOfWork.ProductRepository.GetAllAsync();
             return values.Sum(x => x.BuyingPrice);
         }
+
     }
 }

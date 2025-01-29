@@ -12,6 +12,7 @@ namespace Inventory.Application.Services
     public interface IProductManagementService
     {
         Task<Product> GetProductByIdAsync(Guid id);
+        Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex, 
             int pageSize, ProductSearchDto search, string? order);
         void InsertProduct(Product product);

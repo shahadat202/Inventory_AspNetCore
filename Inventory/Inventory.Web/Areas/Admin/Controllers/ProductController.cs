@@ -36,10 +36,10 @@ namespace Inventory.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> IndexUI()
         {
-            var (data, total, totalDisplay) = await _productManagementService.GetProductsSP(1, 10, new ProductSearchDto(), "Name ASC"); //SQL order by clause "Name ASC" 
-            return View(data); 
+            var products = await _productManagementService.GetAllProductsAsync();
+            var productViewModels = _mapper.Map<List<ViewProductModel>>(products);
+            return View(productViewModels);
         }
-
 
         [HttpPost]
         public async Task<JsonResult> GetProductJsonDataSP([FromBody] ProductListModel model)
@@ -193,7 +193,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             if (product == null)
                 return NotFound();
             
-            var productViewModel = _mapper.Map<ProductViewModel>(product);  
+            var productViewModel = _mapper.Map<ViewProductModel>(product);  
             return View(productViewModel);
         }
 
