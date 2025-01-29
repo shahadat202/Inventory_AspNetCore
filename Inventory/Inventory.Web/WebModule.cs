@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Inventory.Application;
 using Inventory.Application.Services;
+using Inventory.Domain;
 using Inventory.Domain.RepositoryContracts;
 using Inventory.Infrastructure;
 using Inventory.Infrastructure.Repositories;
@@ -40,6 +41,10 @@ namespace Inventory.Web
 
             builder.RegisterType<InventoryUnitOfWork>()
                 .As<IInventoryUnitOfWork>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailUtility>()
+                .As<IEmailUtility>()
                 .InstancePerLifetimeScope();
         }
     }

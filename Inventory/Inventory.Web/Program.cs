@@ -9,6 +9,9 @@ using Serilog.Events;
 using System.Reflection;
 using Inventory.Infrastructure;
 using Inventory.Infrastructure.Identity;
+using Microsoft.Extensions.Options;
+using Inventory.Infrastructure.Extensions;
+using Inventory.Domain;
 
 #region Bootstrap Logger
 var configuration = new ConfigurationBuilder()
@@ -59,15 +62,11 @@ try
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     #endregion
 
-    builder.Services
-        .AddIdentity<ApplicationUser, ApplicationRole>()
-        .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddUserManager<ApplicationUserManager>()
-        .AddRoleManager<ApplicationRoleManager>()
-        .AddSignInManager<ApplicationSignInManager>()
-        .AddDefaultTokenProviders();
-
+    builder.Services.AddIdentity();
     builder.Services.AddControllersWithViews();
+
+    builder.Services.Configure<SmtpSettings>(builder.
+        Configuration.GetSection("SmtpSettings"));
 
     var app = builder.Build();
 
@@ -88,6 +87,7 @@ try
 
     app.UseRouting();
 
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllerRoute(
