@@ -7,10 +7,11 @@ using System.Web;
 using Inventory.Infrastructure;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Inventory.Web.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;
@@ -27,6 +28,8 @@ namespace Inventory.Web.Areas.Admin.Controllers
             _categoryManagementService = categoryManagementService;
             _mapper = mapper;
         }
+
+        [Authorize(Roles = "Admin,Support")]
         public async Task<IActionResult> Index()
         {
             var model = new ProductListModel();
@@ -34,6 +37,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin,Support,Member")]
         public async Task<IActionResult> IndexUI()
         {
             var products = await _productManagementService.GetAllProductsAsync();
@@ -41,7 +45,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View(productViewModels);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin,Support")]
         public async Task<JsonResult> GetProductJsonDataSP([FromBody] ProductListModel model)
         {
             var result = await _productManagementService.GetProductsSP(model.PageIndex, model.PageSize,
@@ -69,6 +73,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return Json(productJsonData);
         }
 
+        [Authorize(Roles = "Admin,Support")]
         public async Task<IActionResult> Insert()
         {
             var model = new ProductInsertModel();
@@ -76,7 +81,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Admin,Support")]
         public async Task<IActionResult> Insert(ProductInsertModel model)
         {
             if (ModelState.IsValid)
@@ -111,6 +116,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Support")]
         public async Task<IActionResult> Update(Guid id)
         {
             Product product = await _productManagementService.GetProductByIdAsync(id);
@@ -118,7 +124,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Admin,Support")]
         public async Task<IActionResult> Update(ProductUpdateModel model)
         {
             if (ModelState.IsValid)
@@ -162,7 +168,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View();
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -187,6 +193,7 @@ namespace Inventory.Web.Areas.Admin.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Support")]
         public async Task<IActionResult> ViewProduct(Guid id)
         {
             var product = await _productManagementService.GetProductByIdAsync(id);

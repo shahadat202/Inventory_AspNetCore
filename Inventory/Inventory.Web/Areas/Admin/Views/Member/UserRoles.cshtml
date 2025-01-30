@@ -1,0 +1,135 @@
+﻿@model List<UserRoleViewModel>
+
+@{
+    ViewData["Title"] = "User & Role Management";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+}
+@section Scripts {
+    <script src="~/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/adminlte/plugins/jszip/jszip.min.js"></script>
+    <script src="~/adminlte/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/adminlte/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#userRoles").DataTable({
+                processing: true,
+                serverSide: false,
+                responsive: true,
+                lengthChange: true,
+                autoWidth: false,
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'All']
+                ],
+
+                dom: '<"row"<"col-sm-12 col-md-6"lB><"col-sm-12 col-md-6"f>><"row"<"col-sm-12"tr>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#userRoles_wrapper .col-md-6:eq(0)');
+
+            $('#userRoles').on('click', '.show-bs-modal', function (event) {
+                let id = $(this).data("id");
+                let modal = $("#modal-default");
+                modal.find('.modal-body p').text('Are you sure you want to delete this record?');
+                $("#deleteId").val(id);
+                $("#deleteForm").attr("action", "/admin/member/deleteUser");
+                modal.modal('show');
+            });
+            $("#deleteButton").click(function () {
+                $("#deleteForm").submit();
+            });
+        });
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>User & Role Management</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">
+                        <a asp-area="Admin" asp-controller="Member" asp-action="AllRoles" class="btn btn-info">
+                            All Roles
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Relations with users and roles</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <partial name="_ResponsePartial" />
+                        <partial name="_ModalPartial" />
+                        <table id="userRoles" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Usesr Name</th>
+                                    <th>Assigned Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>@user.UserName</td>
+                                        <td>@user.Role</td>
+                                        <td>
+                                            <a href="@Url.Action("ChangeRole", "Member", new { id = user.UserId })" class="btn btn-info btn-sm">
+                                                <i class="fas fa-edit"></i> Change Role
+                                            </a>
+                                            <button type="submit" class="btn btn-danger btn-sm show-bs-modal" data-id="@user.UserId">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Usesr Name</th>
+                                    <th>Assigned Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+

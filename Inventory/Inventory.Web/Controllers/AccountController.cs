@@ -48,6 +48,7 @@ namespace Inventory.Web.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Member");
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
@@ -124,6 +125,11 @@ namespace Inventory.Web.Controllers
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             returnUrl ??= Url.Content("~/");
             return LocalRedirect(returnUrl);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

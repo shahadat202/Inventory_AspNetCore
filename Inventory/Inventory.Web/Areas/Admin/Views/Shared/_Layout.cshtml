@@ -251,6 +251,35 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-id-badge"></i>
+                                <p>
+                                    Identity
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="Admin" asp-controller="Member" asp-action="AllRoles" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Roles</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="Admin" asp-controller="Member" asp-action="UserRoles" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User & Role Management</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="Admin" asp-controller="Member" asp-action="ChangeRole" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Change Role</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
