@@ -10,6 +10,7 @@ using Inventory.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Inventory.Domain;
+using Microsoft.EntityFrameworkCore;
 namespace Inventory.Web.Controllers
 {
     [Authorize]
@@ -131,5 +132,7 @@ namespace Inventory.Web.Controllers
         {
             return View();
         }
+
+        
     }
 }

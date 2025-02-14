@@ -10,9 +10,12 @@ namespace Inventory.Application.Services
     public class ProductManagementService : IProductManagementService
     {
         private readonly IInventoryUnitOfWork _inventoryUnitOfWork;
-        public ProductManagementService(IInventoryUnitOfWork inventoryUnitOfWork)
+        private readonly IProductRepository _productRepository;
+        public ProductManagementService(IInventoryUnitOfWork inventoryUnitOfWork,
+            IProductRepository productRepository)
         {
             _inventoryUnitOfWork = inventoryUnitOfWork;
+            _productRepository = productRepository;
         }
 
         public async Task<Product> GetProductByIdAsync(Guid id)
@@ -68,11 +71,15 @@ namespace Inventory.Application.Services
             return products.Count();
         }
 
-        public async Task<decimal> GetTotalValue()
+        public async Task<decimal> GetTotalBuyingValue()
         {
             var values = await _inventoryUnitOfWork.ProductRepository.GetAllAsync();
-            return values.Sum(x => x.BuyingPrice);
+            return values.Sum(x => x.BuyingPrice * x.StockQuantity);
         }
 
+        public async Task<int> GetTotalRegistration()
+        {
+            return await _productRepository.GetTotalRegistrationAsync();
+        }
     }
 }

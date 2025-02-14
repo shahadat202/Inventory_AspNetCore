@@ -1,6 +1,8 @@
 ﻿using Inventory.Domain;
 using Inventory.Domain.Entities;
 using Inventory.Domain.RepositoryContracts;
+using Inventory.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,9 +15,12 @@ namespace Inventory.Infrastructure.Repositories
     public class ProductRepository : Repository<Product, Guid>, IProductRepository
     {
         private readonly InventoryDbContext _context;
-        public ProductRepository(InventoryDbContext context) : base(context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ProductRepository(InventoryDbContext context, 
+            UserManager<ApplicationUser> userManager) : base(context)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public (IList<Product> data, int total, int totalDisplay) GetPagedProducts(int pageIndex, int pageSize,
@@ -55,6 +60,11 @@ namespace Inventory.Infrastructure.Repositories
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await _context.Products.ToListAsync();
+        }
+
+        public async Task<int> GetTotalRegistrationAsync()
+        {
+            return await _userManager.Users.CountAsync();
         }
     }
 }

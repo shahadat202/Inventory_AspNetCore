@@ -10,7 +10,8 @@ namespace Inventory.Web
         {
             CreateMap<ProductInsertModel, Product>().ReverseMap();
             CreateMap<ProductUpdateModel, Product>().ReverseMap();
-            CreateMap<ViewProductModel, Product>().ReverseMap();
+            CreateMap<Product, ViewProductModel>()
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name));
         }
     }
 }

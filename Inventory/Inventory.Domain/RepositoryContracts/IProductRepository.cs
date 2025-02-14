@@ -15,5 +15,6 @@ namespace Inventory.Domain.RepositoryContracts
         bool IsProductExist(string title, Guid id);
         Task<Product> GetProductAsync(Guid id);
         Task<IEnumerable<Product>> GetAllAsync();
+        Task<int> GetTotalRegistrationAsync();
     }
 }

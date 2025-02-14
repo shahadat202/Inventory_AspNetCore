@@ -22,6 +22,7 @@ namespace Inventory.Application.Services
 
         // Dashboard part
         Task<int> GetTotalItems();
-        Task<decimal> GetTotalValue();
+        Task<decimal> GetTotalBuyingValue();
+        Task<int> GetTotalRegistration();
     }
 }

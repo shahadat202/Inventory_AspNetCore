@@ -199,8 +199,24 @@ namespace Inventory.Web.Areas.Admin.Controllers
             var product = await _productManagementService.GetProductByIdAsync(id);
             if (product == null)
                 return NotFound();
-            
+
             var productViewModel = _mapper.Map<ViewProductModel>(product);  
+            //var productViewModel = new ViewProductModel()
+            //{
+            //    Id = product.Id,
+            //    Name = product.Name,
+            //    Image = product.Image,
+            //    Category = product.Category.Name.ToString(),
+            //    MeasurementUnit = product.MeasurementUnit,
+            //    StockQuantity = product.StockQuantity,
+            //    BuyingPrice = product.BuyingPrice,
+            //    SellingPrice = product.SellingPrice,
+            //    Tax = product.Tax,
+            //    SellingWithTax = product.SellingWithTax,
+            //    Barcode = product.Barcode,
+            //    Description = product.Description,
+            //    Status = product.Status,
+            //};
             return View(productViewModel);
         }
 

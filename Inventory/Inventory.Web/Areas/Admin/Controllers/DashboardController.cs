@@ -28,7 +28,8 @@ namespace Inventory.Web.Areas.Admin.Controllers
             var model = new DashboardViewModel()
             {
                 TotalItems = await _productManagementService.GetTotalItems(),
-                TotalValue = await _productManagementService.GetTotalValue(),
+                TotalBuyingValue = await _productManagementService.GetTotalBuyingValue(),
+                TotalRegisterdUser = await _productManagementService.GetTotalRegistration(),
             };
             return View(model);
         }
