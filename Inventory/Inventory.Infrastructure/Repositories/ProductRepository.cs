@@ -1,6 +1,6 @@
 ﻿using Inventory.Domain;
 using Inventory.Domain.Entities;
-using Inventory.Domain.RepositoryContracts;
+using Inventory.Domain.RepositoryInterface;
 using Inventory.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

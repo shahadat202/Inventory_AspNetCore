@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Inventory.Domain.Entities;
-using Inventory.Domain.RepositoryContracts;
+using Inventory.Domain.RepositoryInterface;
 using Microsoft.EntityFrameworkCore.Query;
 namespace Inventory.Infrastructure.Repositories
 {

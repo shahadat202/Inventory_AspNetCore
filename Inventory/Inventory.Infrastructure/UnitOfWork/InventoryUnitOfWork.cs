@@ -2,7 +2,7 @@
 using Inventory.Domain;
 using Inventory.Domain.Dtos;
 using Inventory.Domain.Entities;
-using Inventory.Domain.RepositoryContracts;
+using Inventory.Domain.RepositoryInterface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

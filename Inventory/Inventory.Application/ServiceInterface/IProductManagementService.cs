@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inventory.Application.Services
+namespace Inventory.Application.ServiceInterface
 {
     public interface IProductManagementService
     {
         Task<Product> GetProductByIdAsync(Guid id);
         Task<IEnumerable<Product>> GetAllProductsAsync();
-        Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex, 
+        Task<(IList<ProductDto> data, int total, int totalDisplay)> GetProductsSP(int pageIndex,
             int pageSize, ProductSearchDto search, string? order);
         void InsertProduct(Product product);
         void UpdateProduct(Product product);

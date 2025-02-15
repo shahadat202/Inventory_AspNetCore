@@ -1,8 +1,9 @@
 ﻿using Autofac;
 using Inventory.Application;
+using Inventory.Application.ServiceInterface;
 using Inventory.Application.Services;
 using Inventory.Domain;
-using Inventory.Domain.RepositoryContracts;
+using Inventory.Domain.RepositoryInterface;
 using Inventory.Infrastructure;
 using Inventory.Infrastructure.Repositories;
 using Inventory.Infrastructure.UnitOfWorks;

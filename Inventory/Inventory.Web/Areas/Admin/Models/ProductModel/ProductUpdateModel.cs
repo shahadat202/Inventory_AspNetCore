@@ -3,7 +3,7 @@ using Inventory.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace Inventory.Web.Areas.Admin.Models
+namespace Inventory.Web.Areas.Admin.Models.ProductModel
 {
     public class ProductUpdateModel
     {

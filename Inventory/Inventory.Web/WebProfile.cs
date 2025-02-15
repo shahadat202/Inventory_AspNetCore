@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Inventory.Domain.Entities;
-using Inventory.Web.Areas.Admin.Models;
+using Inventory.Web.Areas.Admin.Models.ProductModel;
 
 namespace Inventory.Web
 {

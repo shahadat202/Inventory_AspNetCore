@@ -1,8 +1,9 @@
-﻿using Inventory.Application.Services;
-using Inventory.Domain.Entities;
+﻿using Inventory.Domain.Entities;
 using Inventory.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 using Inventory.Infrastructure;
+using Inventory.Application.ServiceInterface;
+using Inventory.Web.Areas.Admin.Models.CategoryModel;
 
 namespace Inventory.Web.Areas.Admin.Controllers
 {

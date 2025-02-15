@@ -1,6 +1,5 @@
 ﻿using Inventory.Domain.Entities;
 using Inventory.Domain.Dtos;
-using Inventory.Application.Services;
 using Inventory.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
@@ -8,6 +7,8 @@ using Inventory.Infrastructure;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Inventory.Application.ServiceInterface;
+using Inventory.Web.Areas.Admin.Models.ProductModel;
 
 namespace Inventory.Web.Areas.Admin.Controllers
 {

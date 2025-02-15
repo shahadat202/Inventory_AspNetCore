@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Inventory.Application.Services;
+using Inventory.Application.ServiceInterface;
 using Inventory.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 

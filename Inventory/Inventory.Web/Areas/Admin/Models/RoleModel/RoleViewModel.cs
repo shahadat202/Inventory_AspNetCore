@@ -1,6 +1,6 @@
-﻿namespace Inventory.Web.Areas.Admin.Models
+﻿namespace Inventory.Web.Areas.Admin.Models.RoleModel
 {
-    public class CategoryUpdateModel
+    public class RoleViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

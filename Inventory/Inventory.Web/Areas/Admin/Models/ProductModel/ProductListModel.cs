@@ -4,7 +4,7 @@ using Inventory.Domain.Entities;
 using Inventory.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Inventory.Web.Areas.Admin.Models
+namespace Inventory.Web.Areas.Admin.Models.ProductModel
 {
     public class ProductListModel : DataTables
     {

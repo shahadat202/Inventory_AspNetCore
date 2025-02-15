@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inventory.Domain.RepositoryContracts
+namespace Inventory.Domain.RepositoryInterface
 {
     public interface ICategoryRepository : IRepositoryBase<Category, Guid>
     {

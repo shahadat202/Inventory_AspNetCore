@@ -1,11 +1,11 @@
 ﻿using Inventory.Infrastructure.Identity;
-using Inventory.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Inventory.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Inventory.Web.Areas.Admin.Models.RoleModel;
 
 namespace Inventory.Web.Areas.Admin.Controllers
 {

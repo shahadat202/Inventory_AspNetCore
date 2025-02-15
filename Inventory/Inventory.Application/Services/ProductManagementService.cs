@@ -1,7 +1,8 @@
-﻿using Inventory.Domain;
+﻿using Inventory.Application.ServiceInterface;
+using Inventory.Domain;
 using Inventory.Domain.Dtos;
 using Inventory.Domain.Entities;
-using Inventory.Domain.RepositoryContracts;
+using Inventory.Domain.RepositoryInterface;
 using System.Linq;
 using System.Reflection.Metadata;
 

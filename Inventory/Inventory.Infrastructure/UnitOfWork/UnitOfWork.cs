@@ -1,5 +1,5 @@
 ﻿using Inventory.Domain;
-using Inventory.Domain.RepositoryContracts;
+using Inventory.Domain.RepositoryInterface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

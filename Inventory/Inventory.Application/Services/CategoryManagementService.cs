@@ -1,5 +1,6 @@
-﻿using Inventory.Domain.Entities;
-using Inventory.Domain.RepositoryContracts;
+﻿using Inventory.Application.ServiceInterface;
+using Inventory.Domain.Entities;
+using Inventory.Domain.RepositoryInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;

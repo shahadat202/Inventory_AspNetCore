@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-namespace Inventory.Domain.RepositoryContracts
+namespace Inventory.Domain.RepositoryInterface
 {
     public interface IRepositoryBase<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
